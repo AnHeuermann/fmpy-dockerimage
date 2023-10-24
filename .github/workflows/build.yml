@@ -1,0 +1,42 @@
+name: Build Docker Image
+
+on:
+  push:
+    branches:
+      - main
+      - 'releases/**'
+  pull_request:
+    branches:
+      - main
+      - 'releases/**'
+
+env:
+  TEST_TAG: anheuermann/fmpy:test
+
+jobs:
+  build:
+    name: Build and test Docker image
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: anheuermann/fmpy
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          load: true
+          push: false
+          tags: ${{ env.TEST_TAG }}
+
+      - name: Test FMPy
+        run: |
+          docker run --rm -v $(pwd):fmus/:/fmus/ ${{ env.TEST_TAG }} python3 -m fmpy simulate /fmus/CoupledClutches.fmu
