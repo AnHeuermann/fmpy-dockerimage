@@ -1,0 +1,31 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+  "name": "fmpy-dockerimage",
+
+  // Build with Dockerfile
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  "runArgs": [
+    "-v /tmp/.X11-unix:/tmp/.X11-unix",
+    "-e DISPLAY",
+    "-e WAYLAND_DISPLAY",
+    "-e XDG_RUNTIME_DIR",
+    "-e PULSE_SERVER"
+  ],
+
+  // Additional VSCode extensions
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "AnHeuermann.metamodelica",
+        "ms-vscode.cpptools-extension-pack"
+      ]
+    }
+  },
+
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  "remoteUser": "${localEnv:USER}${localEnv:USERNAME}"
+}
