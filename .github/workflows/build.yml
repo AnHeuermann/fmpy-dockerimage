@@ -39,4 +39,4 @@ jobs:
 
       - name: Test FMPy
         run: |
-          docker run --rm -v $(pwd):fmus/:/fmus/ ${{ env.TEST_TAG }} python3 -m fmpy simulate /fmus/CoupledClutches.fmu
+          docker run --rm -v $(pwd)/fmus/:/fmus/ ${{ env.TEST_TAG }} python3 -m fmpy simulate /fmus/CoupledClutches.fmu
